@@ -5,6 +5,8 @@ import java.util.List;
 /** This class is the main entry point. */
 public class MapEngine {
 
+  private String[] countriesArray;
+
   public MapEngine() {
     // add other code here if you want
     loadMap(); // keep this mehtod invocation
@@ -15,11 +17,32 @@ public class MapEngine {
     List<String> countries = Utils.readCountries();
     List<String> adjacencies = Utils.readAdjacencies();
     // add code here to create your data structures
+
+    Graph graph = new Graph();
+
+
+    for (String country : countries) {
+      // graph.addCountry(country);
+      String[] countryArray = country.split(",");
+      Countries newCountry = new Countries(countryArray[0], countryArray[1], Integer.parseInt(countryArray[2]));
+    }
+
+    // for (String adjacency : adjacencies) {
+    //   String[] adjacencyArray = adjacency.split(",");
+    //   graph.addAdjacency(adjacencyArray[0], adjacencyArray[1]);
+    // }
+
+    // countriesArray = countries.split(",");
+
+    // Map<String, Countries> countriesMap = new HashMap<>();
+
+
+
   }
 
   /** this method is invoked when the user run the command info-country. */
   public void showInfoCountry() {
-    // add code here
+    
   }
 
   /** this method is invoked when the user run the command route. */
