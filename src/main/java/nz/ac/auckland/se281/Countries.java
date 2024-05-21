@@ -21,7 +21,9 @@ public class Countries {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((continent == null) ? 0 : name.hashCode());
+    result = prime * result + ((name == null) ? 0 : name.hashCode());
+    result = prime * result + ((continent == null) ? 0 : continent.hashCode());
+    result = prime * result + tax;
     return result;
   }
 
@@ -36,5 +38,17 @@ public class Countries {
     } else if (!name.equals(other.name)) return false;
 
     return true;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public String getContinent() {
+    return continent;
+  }
+
+  public int getTax() {
+    return tax;
   }
 }
