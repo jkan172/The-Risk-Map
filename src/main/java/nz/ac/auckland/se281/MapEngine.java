@@ -44,36 +44,37 @@ public class MapEngine {
 
   /** this method is invoked when the user run the command info-country. */
   public void showInfoCountry() {
-
+    boolean countryFound = false;
     MessageCli.INSERT_COUNTRY.printMessage();
+    
+    while(!countryFound) {
     String input = Utils.scanner.nextLine();
-    String capInput = Utils.capitalizeFirstLetterOfEachWord(input);
+     input = Utils.capitalizeFirstLetterOfEachWord(input);
 
     // MessageCli.COUNTRY_INFO.printMessage();
 
+    
 
-    boolean countryFound = false;
-      
-
-    try {
-      for (Countries country : graph.getCountriesSet()) {
-        if (country.getName().equals(capInput)) {
-          MessageCli.COUNTRY_INFO.printMessage(
-              country.getName(), country.getContinent(), String.valueOf(country.getTax()));
-          countryFound = true;
-          break;
+    
+      try {
+        for (Countries country : graph.getCountriesSet()) {
+          if (country.getName().equals(input)) {
+            MessageCli.COUNTRY_INFO.printMessage(
+                country.getName(), country.getContinent(), String.valueOf(country.getTax()));
+            countryFound = true;
+            break;
+          }
         }
-      }
-      if (!countryFound) {
-      throw new IncorrectCountryException(input);
-      }
-      
+        if (!countryFound) {
+          throw new IncorrectCountryException(input);
+        }
 
-    } catch (IncorrectCountryException e) {
-      MessageCli.INVALID_COUNTRY.printMessage(e.getCountryName());
-      
+      } catch (IncorrectCountryException e) {
+        MessageCli.INVALID_COUNTRY.printMessage(e.getCountryName());
+        // input = Utils.scanner.nextLine();
+      }
     }
-  }
+    }
   
 
   /** this method is invoked when the user run the command route. */
