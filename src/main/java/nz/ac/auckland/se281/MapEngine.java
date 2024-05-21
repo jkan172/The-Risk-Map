@@ -21,6 +21,7 @@ public class MapEngine {
 
     graph = new RiskMap();
 
+    // add countries to the graph
     for (String country : countries) {
       String[] countryArray = country.split(",");
       Countries newCountry =
@@ -28,6 +29,7 @@ public class MapEngine {
       graph.addCountry(newCountry);
     }
 
+    // add adjacencies to the graph
     for (String adjacency : adjacencies) {
       String[] adjacencyArray = adjacency.split(",");
       Countries country1 = graph.getCountryByName(adjacencyArray[0]);
@@ -46,16 +48,14 @@ public class MapEngine {
   public void showInfoCountry() {
     boolean countryFound = false;
     MessageCli.INSERT_COUNTRY.printMessage();
-    
-    while(!countryFound) {
-    String input = Utils.scanner.nextLine();
-     input = Utils.capitalizeFirstLetterOfEachWord(input);
 
-    // MessageCli.COUNTRY_INFO.printMessage();
+    // while the country is not found run the try catch mathod until the user inputs the correct
+    // country
+    while (!countryFound) {
+      String input = Utils.scanner.nextLine();
+      input = Utils.capitalizeFirstLetterOfEachWord(input);
 
-    
-
-    
+      // check if the country is in the graph
       try {
         for (Countries country : graph.getCountriesSet()) {
           if (country.getName().equals(input)) {
@@ -66,16 +66,15 @@ public class MapEngine {
           }
         }
         if (!countryFound) {
+          // if the country is not found throw an exception
           throw new IncorrectCountryException(input);
         }
 
       } catch (IncorrectCountryException e) {
         MessageCli.INVALID_COUNTRY.printMessage(e.getCountryName());
-        // input = Utils.scanner.nextLine();
       }
     }
-    }
-  
+  }
 
   /** this method is invoked when the user run the command route. */
   public void showRoute() {}
