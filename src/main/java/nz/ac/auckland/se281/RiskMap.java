@@ -103,50 +103,66 @@ public class RiskMap {
     return countriesSet.toArray(new Countries[0]);
   }
 
-  public List<Countries> breathFirstTraversal(Countries sourceCountry, Countries destinationCountry) {
+  public List<Countries> breathFirstTraversal(
+      Countries sourceCountry, Countries destinationCountry) {
     if (!adjCountry.containsKey(sourceCountry) || !adjCountry.containsKey(destinationCountry)) {
       return null;
     }
-    
+
     List<Countries> visited = new ArrayList<>();
     Queue<Countries> queue = new LinkedList<>();
-
     Map<Countries, Countries> parent = new HashMap<>();
 
     queue.add(sourceCountry);
-    parent.put(sourceCountry, destinationCountry);
-
+    visited.add(sourceCountry);
+    parent.put(sourceCountry, null);
 
     // visited.add(rootCountry);
     while (!queue.isEmpty()) {
       Countries current = queue.poll();
-      if(!visited.contains(current)) {
-        visited.add(current);
-        for (Countries n : adjCountry.get(current)) {
-          if (!visited.contains(n)) {
-            parent.put(n, current);
-            queue.add(n);
-          } else if (!n.equals(parent.get(current)) && n.equals(sourceCountry)) {
-            List<Countries> path = new ArrayList<>();
-            path.add(n);
-            Countries temp = current;
-            while (temp != null) {
-              path.add(temp);
-              temp = parent.get(temp);
-              if (temp != null && temp.equals(n)) {
-                path.add(temp);
-                break;
-              }
-            }
-            Collections.reverse(path);
-            return path;
-          
-          }
-        }
 
+      if (current.equals(destinationCountry)) {
+        List<Countries> path = new ArrayList<>();
+        for (Countries country = destinationCountry;
+            country != null;
+            country = parent.get(country)) {
+          path.add(country);
+        }
+        Collections.reverse(path);
+        return path;
       }
 
-     
+      for (Countries n : adjCountry.get(current)) {
+        if (!visited.contains(n)) {
+          visited.add(n);
+          parent.put(n, current);
+          queue.add(n);
+        }
+      }
+
+      // if (!visited.contains(current)) {
+      //   visited.add(current);
+      //   for (Countries n : adjCountry.get(current)) {
+      //     if (!visited.contains(n)) {
+      //       parent.put(n, current);
+      //       queue.add(n);
+      //     } else if (!n.equals(parent.get(current)) && n.equals(sourceCountry)) {
+      //       List<Countries> path = new ArrayList<>();
+      //       path.add(n);
+      //       Countries temp = current;
+      //       while (temp != null) {
+      //         path.add(temp);
+      //         temp = parent.get(temp);
+      //         if (temp != null && temp.equals(n)) {
+      //           path.add(temp);
+      //           break;
+      //         }
+      //       }
+      //       Collections.reverse(path);
+      //       return path;
+      //     }
+      //   }
+      // }
     }
     // return visited;
     return null;

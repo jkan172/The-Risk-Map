@@ -19,6 +19,11 @@ public class Countries {
     this.tax = tax;
   }
 
+  @Override
+  public String toString() {
+    return String.format(name);
+  }
+
   /** Returns the hash code of the country. */
   @Override
   public int hashCode() {

@@ -79,6 +79,8 @@ public class MapEngine {
     boolean destinationFound = false;
     String source = null;
     String destination = null;
+    Countries sourceCountry = null;
+    Countries destinationCountry = null;
 
     while (!sourceFound) {
       MessageCli.INSERT_SOURCE.printMessage();
@@ -123,5 +125,19 @@ public class MapEngine {
     if (source.equals(destination)) {
       MessageCli.NO_CROSSBORDER_TRAVEL.printMessage();
     }
+
+    for (Countries country : graph.getCountriesSet()) {
+      if (source.equals(country.getName())) {
+        sourceCountry = country;
+      }
+
+      if (destination.equals(country.getName())) {
+        destinationCountry = country;
+      }
+    }
+
+    // find the shortest path
+    List<Countries> path = graph.breathFirstTraversal(sourceCountry, destinationCountry);
+    MessageCli.ROUTE_INFO.printMessage(path.toString());
   }
 }
