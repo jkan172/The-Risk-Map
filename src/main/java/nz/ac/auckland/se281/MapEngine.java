@@ -83,10 +83,11 @@ public class MapEngine {
     Countries sourceCountry = null;
     Countries destinationCountry = null;
 
+    MessageCli.INSERT_SOURCE.printMessage();
     // while the source is not found run the try catch mathod until the user inputs the correct
     // country name
     while (!sourceFound) {
-      MessageCli.INSERT_SOURCE.printMessage();
+
       String source = Utils.scanner.nextLine();
       sourceCap = Utils.capitalizeFirstLetterOfEachWord(source);
 
@@ -105,10 +106,11 @@ public class MapEngine {
       }
     }
 
+    MessageCli.INSERT_DESTINATION.printMessage();
     // while the destination is not found run the try catch mathod until the user inputs the correct
     // country name
     while (!destinationFound) {
-      MessageCli.INSERT_DESTINATION.printMessage();
+
       String destination = Utils.scanner.nextLine();
       destinationCap = Utils.capitalizeFirstLetterOfEachWord(destination);
 
@@ -144,7 +146,7 @@ public class MapEngine {
     }
 
     // find the shortest path
-    List<Countries> path = graph.fastestRoute(sourceCountry, destinationCountry);
+    List<Countries> path = graph.shortestPath(sourceCountry, destinationCountry);
     if (!sourceCountry.equals(destinationCountry)) {
       MessageCli.ROUTE_INFO.printMessage(path.toString());
     }
@@ -159,7 +161,9 @@ public class MapEngine {
       }
     }
 
-    MessageCli.CONTINENT_INFO.printMessage(continentList.toString());
+    if (!sourceCountry.equals(destinationCountry)) {
+      MessageCli.CONTINENT_INFO.printMessage(continentList.toString());
+    }
 
     int totalTax = 0;
 
