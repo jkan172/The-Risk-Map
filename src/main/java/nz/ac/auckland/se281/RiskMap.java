@@ -59,7 +59,6 @@ public class RiskMap {
     addCountry(country2);
     // Add the adjacency.
     adjCountry.get(country1).add(country2);
-    adjCountry.get(country2).add(country1);
   }
 
   /**
@@ -109,7 +108,7 @@ public class RiskMap {
       return null;
     }
 
-    Set<Countries> visited = new LinkedHashSet<>();
+    Set<Countries> visited = new HashSet<>();
     Queue<Countries> queue = new LinkedList<>();
     Map<Countries, Countries> parent = new HashMap<>();
 
@@ -117,7 +116,6 @@ public class RiskMap {
     visited.add(sourceCountry);
     parent.put(sourceCountry, null);
 
-    // visited.add(rootCountry);
     while (!queue.isEmpty()) {
       Countries current = queue.poll();
 
@@ -139,32 +137,8 @@ public class RiskMap {
           queue.add(n);
         }
       }
-
-      // if (!visited.contains(current)) {
-      //   visited.add(current);
-      //   for (Countries n : adjCountry.get(current)) {
-      //     if (!visited.contains(n)) {
-      //       parent.put(n, current);
-      //       queue.add(n);
-      //     } else if (!n.equals(parent.get(current)) && n.equals(sourceCountry)) {
-      //       List<Countries> path = new ArrayList<>();
-      //       path.add(n);
-      //       Countries temp = current;
-      //       while (temp != null) {
-      //         path.add(temp);
-      //         temp = parent.get(temp);
-      //         if (temp != null && temp.equals(n)) {
-      //           path.add(temp);
-      //           break;
-      //         }
-      //       }
-      //       Collections.reverse(path);
-      //       return path;
-      //     }
-      //   }
-      // }
     }
-    // return visited;
+
     return null;
   }
 }
