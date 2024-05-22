@@ -1,5 +1,6 @@
 package nz.ac.auckland.se281;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /** This class is the main entry point. */
@@ -139,5 +140,16 @@ public class MapEngine {
     // find the shortest path
     List<Countries> path = graph.fastestRoute(sourceCountry, destinationCountry);
     MessageCli.ROUTE_INFO.printMessage(path.toString());
+
+    List<String> continentList = new LinkedList<>();
+
+    for (Countries continents : path) {
+
+      if (!continentList.contains(continents.getContinent())) {
+        continentList.add(continents.getContinent());
+      }
+    }
+
+    MessageCli.CONTINENT_INFO.printMessage(continentList.toString());
   }
 }
