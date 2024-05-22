@@ -151,5 +151,16 @@ public class MapEngine {
     }
 
     MessageCli.CONTINENT_INFO.printMessage(continentList.toString());
+
+    int totalTax = 0;
+
+    for (Countries tax : path) {
+
+      if(!tax.equals(sourceCountry)) {
+      totalTax += tax.getTax();
+      }
+    }
+
+    MessageCli.TAX_INFO.printMessage(String.valueOf(totalTax));
   }
 }
