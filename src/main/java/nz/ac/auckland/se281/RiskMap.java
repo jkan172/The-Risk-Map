@@ -1,8 +1,13 @@
 package nz.ac.auckland.se281;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
 /** Represents the map of the Risk game. */
@@ -86,7 +91,7 @@ public class RiskMap {
    * @return The set of adjacent countries.
    */
   public Set<Countries> getAdjCountry(Countries country) {
-    return adjCountry.get(country);
+    return adjCountry.getOrDefault(country, new HashSet<>());
   }
 
   /**
@@ -96,5 +101,54 @@ public class RiskMap {
    */
   public Countries[] getCountriesSet() {
     return countriesSet.toArray(new Countries[0]);
+  }
+
+  public List<Countries> breathFirstTraversal(Countries sourceCountry, Countries destinationCountry) {
+    if (!adjCountry.containsKey(sourceCountry) || !adjCountry.containsKey(destinationCountry)) {
+      return null;
+    }
+    
+    List<Countries> visited = new ArrayList<>();
+    Queue<Countries> queue = new LinkedList<>();
+
+    Map<Countries, Countries> parent = new HashMap<>();
+
+    queue.add(sourceCountry);
+    parent.put(sourceCountry, destinationCountry);
+
+
+    // visited.add(rootCountry);
+    while (!queue.isEmpty()) {
+      Countries current = queue.poll();
+      if(!visited.contains(current)) {
+        visited.add(current);
+        for (Countries n : adjCountry.get(current)) {
+          if (!visited.contains(n)) {
+            parent.put(n, current);
+            queue.add(n);
+          } else if (!n.equals(parent.get(current)) && n.equals(sourceCountry)) {
+            List<Countries> path = new ArrayList<>();
+            path.add(n);
+            Countries temp = current;
+            while (temp != null) {
+              path.add(temp);
+              temp = parent.get(temp);
+              if (temp != null && temp.equals(n)) {
+                path.add(temp);
+                break;
+              }
+            }
+            Collections.reverse(path);
+            return path;
+          
+          }
+        }
+
+      }
+
+     
+    }
+    // return visited;
+    return null;
   }
 }
