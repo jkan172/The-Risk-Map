@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class RiskMap {
    */
   public void addCountry(Countries country) {
     countriesSet.add(country);
-    adjCountry.putIfAbsent(country, new HashSet<>());
+    adjCountry.putIfAbsent(country, new LinkedHashSet<>());
   }
 
   /**
@@ -103,13 +104,12 @@ public class RiskMap {
     return countriesSet.toArray(new Countries[0]);
   }
 
-  public List<Countries> breathFirstTraversal(
-      Countries sourceCountry, Countries destinationCountry) {
+  public List<Countries> fastestRoute(Countries sourceCountry, Countries destinationCountry) {
     if (!adjCountry.containsKey(sourceCountry) || !adjCountry.containsKey(destinationCountry)) {
       return null;
     }
 
-    List<Countries> visited = new ArrayList<>();
+    Set<Countries> visited = new LinkedHashSet<>();
     Queue<Countries> queue = new LinkedList<>();
     Map<Countries, Countries> parent = new HashMap<>();
 

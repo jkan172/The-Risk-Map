@@ -137,7 +137,7 @@ public class MapEngine {
     }
 
     // find the shortest path
-    List<Countries> path = graph.breathFirstTraversal(sourceCountry, destinationCountry);
+    List<Countries> path = graph.fastestRoute(sourceCountry, destinationCountry);
     MessageCli.ROUTE_INFO.printMessage(path.toString());
   }
 }
