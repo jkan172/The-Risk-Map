@@ -77,10 +77,12 @@ public class MapEngine {
 
     boolean sourceFound = false;
     boolean destinationFound = false;
+    String source = null;
+    String destination = null;
 
     while (!sourceFound) {
       MessageCli.INSERT_SOURCE.printMessage();
-      String source = Utils.scanner.nextLine();
+      source = Utils.scanner.nextLine();
       source = Utils.capitalizeFirstLetterOfEachWord(source);
 
       try {
@@ -100,7 +102,7 @@ public class MapEngine {
 
     while (!destinationFound) {
       MessageCli.INSERT_DESTINATION.printMessage();
-      String destination = Utils.scanner.nextLine();
+      destination = Utils.scanner.nextLine();
       destination = Utils.capitalizeFirstLetterOfEachWord(destination);
 
       try {
@@ -116,6 +118,10 @@ public class MapEngine {
       } catch (IncorrectCountryException e) {
         MessageCli.INVALID_COUNTRY.printMessage(e.getCountryName());
       }
+    }
+
+    if (source.equals(destination)) {
+      MessageCli.NO_CROSSBORDER_TRAVEL.printMessage();
     }
   }
 }
