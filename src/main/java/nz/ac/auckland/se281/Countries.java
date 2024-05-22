@@ -9,9 +9,9 @@ public class Countries {
   /**
    * Constructor for the country.
    *
-   * @param name
-   * @param continent
-   * @param tax
+   * @param name The name of the country.
+   * @param continent The continent of the country.
+   * @param tax The tax of the country.
    */
   public Countries(String name, String continent, int tax) {
     this.name = name;
@@ -48,7 +48,7 @@ public class Countries {
   /**
    * Returns the name of the country.
    *
-   * @return
+   * @return The name of the country.
    */
   public String getName() {
     return name;
@@ -57,7 +57,7 @@ public class Countries {
   /**
    * Returns the continent of the country.
    *
-   * @return
+   * @return The continent of the country.
    */
   public String getContinent() {
     return continent;
@@ -66,7 +66,7 @@ public class Countries {
   /**
    * Returns the tax of the country.
    *
-   * @return
+   * @return The tax of the country.
    */
   public int getTax() {
     return tax;

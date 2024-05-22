@@ -19,7 +19,7 @@ public class RiskMap {
   /**
    * Adds a country to the map.
    *
-   * @param country
+   * @param country The country to add.
    */
   public void addCountry(Countries country) {
     countriesSet.add(country);
@@ -29,8 +29,8 @@ public class RiskMap {
   /**
    * Gets a country by its name.
    *
-   * @param name
-   * @return
+   * @param name The name of the country.
+   * @return The country with the given name.
    */
   public Countries getCountryByName(String name) {
     for (Countries country : countriesSet) {
@@ -44,8 +44,8 @@ public class RiskMap {
   /**
    * Adds an adjacency between two countries.
    *
-   * @param country1
-   * @param country2
+   * @param country1 The first input country.
+   * @param country2 The second input country.
    */
   public void addAdjacency(Countries country1, Countries country2) {
     // Add the countries if they are not already in the map.
@@ -59,7 +59,7 @@ public class RiskMap {
   /**
    * Removes a country from the map.
    *
-   * @param country
+   * @param country The country to remove.
    */
   public void removeCountry(Countries country) {
     adjCountry.remove(country);
@@ -71,8 +71,8 @@ public class RiskMap {
   /**
    * Removes an adjacency between two countries.
    *
-   * @param country1
-   * @param country2
+   * @param country1 The first input country.
+   * @param country2 The second input country.
    */
   public void removeAdjacency(Countries country1, Countries country2) {
     adjCountry.getOrDefault(country1, new HashSet<>()).remove(country2);
@@ -82,8 +82,8 @@ public class RiskMap {
   /**
    * Gets the adjacent countries of a country.
    *
-   * @param country
-   * @return
+   * @param country The input country.
+   * @return The set of adjacent countries.
    */
   public Set<Countries> getAdjCountry(Countries country) {
     return adjCountry.get(country);
@@ -92,7 +92,7 @@ public class RiskMap {
   /**
    * Gets the set of countries in the map.
    *
-   * @return
+   * @return The set of countries.
    */
   public Countries[] getCountriesSet() {
     return countriesSet.toArray(new Countries[0]);

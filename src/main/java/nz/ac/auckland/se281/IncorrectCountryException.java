@@ -8,7 +8,7 @@ public class IncorrectCountryException extends Exception {
   /**
    * Constructor for the exception.
    *
-   * @param countryName
+   * @param countryName The name of the country.
    */
   public IncorrectCountryException(String countryName) {
     super(MessageCli.INVALID_COUNTRY.getMessage(countryName));

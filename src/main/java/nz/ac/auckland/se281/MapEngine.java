@@ -5,7 +5,6 @@ import java.util.List;
 /** This class is the main entry point. */
 public class MapEngine {
 
-  private String[] countriesArray;
   private RiskMap graph;
 
   public MapEngine() {
@@ -39,9 +38,6 @@ public class MapEngine {
         graph.addAdjacency(country1, country2);
       }
     }
-
-    // countriesArray = countries.split(",");
-
   }
 
   /** this method is invoked when the user run the command info-country. */
@@ -77,5 +73,49 @@ public class MapEngine {
   }
 
   /** this method is invoked when the user run the command route. */
-  public void showRoute() {}
+  public void showRoute() {
+
+    boolean sourceFound = false;
+    boolean destinationFound = false;
+
+    while (!sourceFound) {
+      MessageCli.INSERT_SOURCE.printMessage();
+      String source = Utils.scanner.nextLine();
+      source = Utils.capitalizeFirstLetterOfEachWord(source);
+
+      try {
+        for (Countries country : graph.getCountriesSet()) {
+          if (country.getName().equals(source)) {
+            sourceFound = true;
+            break;
+          }
+        }
+        if (!sourceFound) {
+          throw new IncorrectCountryException(source);
+        }
+      } catch (IncorrectCountryException e) {
+        MessageCli.INVALID_COUNTRY.printMessage(e.getCountryName());
+      }
+    }
+
+    while (!destinationFound) {
+      MessageCli.INSERT_DESTINATION.printMessage();
+      String destination = Utils.scanner.nextLine();
+      destination = Utils.capitalizeFirstLetterOfEachWord(destination);
+
+      try {
+        for (Countries country : graph.getCountriesSet()) {
+          if (country.getName().equals(destination)) {
+            destinationFound = true;
+            break;
+          }
+        }
+        if (!destinationFound) {
+          throw new IncorrectCountryException(destination);
+        }
+      } catch (IncorrectCountryException e) {
+        MessageCli.INVALID_COUNTRY.printMessage(e.getCountryName());
+      }
+    }
+  }
 }
