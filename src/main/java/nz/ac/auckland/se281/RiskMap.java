@@ -103,6 +103,12 @@ public class RiskMap {
     return countriesSet.toArray(new Countries[0]);
   }
 
+  /**
+   * Gets the shortest path between two countries.
+   * @param sourceCountry
+   * @param destinationCountry
+   * @return
+   */
   public List<Countries> fastestRoute(Countries sourceCountry, Countries destinationCountry) {
     if (!adjCountry.containsKey(sourceCountry) || !adjCountry.containsKey(destinationCountry)) {
       return null;
@@ -116,10 +122,12 @@ public class RiskMap {
     visited.add(sourceCountry);
     parent.put(sourceCountry, null);
 
+    // while the queue is not empty operate the BFS algorithm
     while (!queue.isEmpty()) {
-      Countries current = queue.poll();
+      Countries currentCountry = queue.poll();
 
-      if (current.equals(destinationCountry)) {
+      // if the destination country is reached, return the path
+      if (currentCountry.equals(destinationCountry)) {
         List<Countries> path = new ArrayList<>();
         for (Countries country = destinationCountry;
             country != null;
@@ -130,10 +138,11 @@ public class RiskMap {
         return path;
       }
 
-      for (Countries n : adjCountry.get(current)) {
+      // add the adjacent countries to the queue
+      for (Countries n : adjCountry.get(currentCountry)) {
         if (!visited.contains(n)) {
           visited.add(n);
-          parent.put(n, current);
+          parent.put(n, currentCountry);
           queue.add(n);
         }
       }

@@ -78,71 +78,80 @@ public class MapEngine {
 
     boolean sourceFound = false;
     boolean destinationFound = false;
-    String source = null;
-    String destination = null;
+    String sourceCap = null;
+    String destinationCap = null;
     Countries sourceCountry = null;
     Countries destinationCountry = null;
 
+    // while the source is not found run the try catch mathod until the user inputs the correct
+    // country name
     while (!sourceFound) {
       MessageCli.INSERT_SOURCE.printMessage();
-      source = Utils.scanner.nextLine();
-      source = Utils.capitalizeFirstLetterOfEachWord(source);
+      String source = Utils.scanner.nextLine();
+      sourceCap = Utils.capitalizeFirstLetterOfEachWord(source);
 
       try {
         for (Countries country : graph.getCountriesSet()) {
-          if (country.getName().equals(source)) {
+          if (country.getName().equals(sourceCap)) {
             sourceFound = true;
             break;
           }
         }
         if (!sourceFound) {
-          throw new IncorrectCountryException(source);
+          throw new IncorrectCountryException(sourceCap);
         }
       } catch (IncorrectCountryException e) {
         MessageCli.INVALID_COUNTRY.printMessage(e.getCountryName());
       }
     }
 
+    // while the destination is not found run the try catch mathod until the user inputs the correct
+    // country name
     while (!destinationFound) {
       MessageCli.INSERT_DESTINATION.printMessage();
-      destination = Utils.scanner.nextLine();
-      destination = Utils.capitalizeFirstLetterOfEachWord(destination);
+      String destination = Utils.scanner.nextLine();
+      destinationCap = Utils.capitalizeFirstLetterOfEachWord(destination);
 
       try {
         for (Countries country : graph.getCountriesSet()) {
-          if (country.getName().equals(destination)) {
+          if (country.getName().equals(destinationCap)) {
             destinationFound = true;
             break;
           }
         }
         if (!destinationFound) {
-          throw new IncorrectCountryException(destination);
+          throw new IncorrectCountryException(destinationCap);
         }
       } catch (IncorrectCountryException e) {
         MessageCli.INVALID_COUNTRY.printMessage(e.getCountryName());
       }
     }
 
-    if (source.equals(destination)) {
+    // check if the source and destination are the same
+    if (sourceCap.equals(destinationCap)) {
       MessageCli.NO_CROSSBORDER_TRAVEL.printMessage();
     }
 
+    // find the source and destination countries
     for (Countries country : graph.getCountriesSet()) {
-      if (source.equals(country.getName())) {
+      if (sourceCap.equals(country.getName())) {
         sourceCountry = country;
       }
 
-      if (destination.equals(country.getName())) {
+      if (destinationCap.equals(country.getName())) {
         destinationCountry = country;
       }
     }
 
     // find the shortest path
     List<Countries> path = graph.fastestRoute(sourceCountry, destinationCountry);
-    MessageCli.ROUTE_INFO.printMessage(path.toString());
+    if (!sourceCountry.equals(destinationCountry)) {
+      MessageCli.ROUTE_INFO.printMessage(path.toString());
+    }
 
     List<String> continentList = new LinkedList<>();
 
+    // find the continents and store them in a list
     for (Countries continents : path) {
 
       if (!continentList.contains(continents.getContinent())) {
@@ -154,13 +163,16 @@ public class MapEngine {
 
     int totalTax = 0;
 
+    // find the total tax
     for (Countries tax : path) {
 
-      if(!tax.equals(sourceCountry)) {
-      totalTax += tax.getTax();
+      if (!tax.equals(sourceCountry)) {
+        totalTax += tax.getTax();
       }
     }
 
-    MessageCli.TAX_INFO.printMessage(String.valueOf(totalTax));
+    if (!sourceCountry.equals(destinationCountry)) {
+      MessageCli.TAX_INFO.printMessage(String.valueOf(totalTax));
+    }
   }
 }
