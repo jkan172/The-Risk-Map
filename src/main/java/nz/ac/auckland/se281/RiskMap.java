@@ -13,12 +13,10 @@ import java.util.Set;
 
 /** Represents the map of the Risk game. */
 public class RiskMap {
-  private Set<Countries> countriesSet;
   private Map<Countries, Set<Countries>> adjCountry;
 
   /** Constructor for the RiskMap. */
   public RiskMap() {
-    this.countriesSet = new HashSet<>();
     this.adjCountry = new HashMap<>();
   }
 
@@ -28,7 +26,6 @@ public class RiskMap {
    * @param country The country to add.
    */
   public void addCountry(Countries country) {
-    countriesSet.add(country);
     adjCountry.putIfAbsent(country, new LinkedHashSet<>());
   }
 
@@ -39,7 +36,7 @@ public class RiskMap {
    * @return The country with the given name.
    */
   public Countries getCountryByName(String name) {
-    for (Countries country : countriesSet) {
+    for (Countries country : adjCountry.keySet()) {
       if (country.getName().equals(name)) {
         return country;
       }
@@ -99,8 +96,8 @@ public class RiskMap {
    *
    * @return The set of countries.
    */
-  public Countries[] getCountriesSet() {
-    return countriesSet.toArray(new Countries[0]);
+  public Set<Countries> getCountriesSet() {
+    return adjCountry.keySet();
   }
 
   /**

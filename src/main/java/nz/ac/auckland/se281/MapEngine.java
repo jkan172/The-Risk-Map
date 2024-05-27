@@ -132,6 +132,7 @@ public class MapEngine {
     // check if the source and destination are the same
     if (sourceCap.equals(destinationCap)) {
       MessageCli.NO_CROSSBORDER_TRAVEL.printMessage();
+      return;
     }
 
     // find the source and destination countries
