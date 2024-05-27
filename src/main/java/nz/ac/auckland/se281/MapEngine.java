@@ -147,7 +147,7 @@ public class MapEngine {
     }
 
     // find the shortest path
-    List<Countries> path = graph.shortestPath(sourceCountry, destinationCountry);
+    List<Countries> path = graph.getShortestPath(sourceCountry, destinationCountry);
     if (!sourceCountry.equals(destinationCountry)) {
       MessageCli.ROUTE_INFO.printMessage(path.toString());
     }

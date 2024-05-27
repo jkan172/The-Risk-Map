@@ -103,11 +103,11 @@ public class RiskMap {
   /**
    * Gets the shortest path between two countries.
    *
-   * @param sourceCountry
-   * @param destinationCountry
-   * @return
+   * @param sourceCountry Country to start from
+   * @param destinationCountry Country to end up at
+   * @return The List of Countries
    */
-  public List<Countries> shortestPath(Countries sourceCountry, Countries destinationCountry) {
+  public List<Countries> getShortestPath(Countries sourceCountry, Countries destinationCountry) {
     if (!adjCountry.containsKey(sourceCountry) || !adjCountry.containsKey(destinationCountry)) {
       return null;
     }
