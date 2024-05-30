@@ -41,36 +41,59 @@ public class MapEngine {
     }
   }
 
+  /**
+   * this method is used to get the country from the graph.
+   *
+   * @param input the country name
+   * @return the country object
+   * @throws IncorrectCountryException if the country is not found
+   */
+  public Countries getCountry(String input) throws IncorrectCountryException {
+    Countries foundCountry = null;
+    input = Utils.capitalizeFirstLetterOfEachWord(input);
+
+    // search for the country in the graph
+    for (Countries country : graph.getCountriesSet()) {
+      if (country.getName().equals(input)) {
+        foundCountry = country;
+        break;
+      }
+    }
+    // if the country is not found throw an exception
+    if (foundCountry == null) {
+      // if the country is not found throw an exception
+      throw new IncorrectCountryException(input);
+    }
+
+    return foundCountry;
+  }
+
   /** this method is invoked when the user run the command info-country. */
   public void showInfoCountry() {
     boolean countryFound = false;
+    Countries currentCountry = null;
     MessageCli.INSERT_COUNTRY.printMessage();
 
     // while the country is not found run the try catch mathod until the user inputs the correct
     // country
     while (!countryFound) {
       String input = Utils.scanner.nextLine();
-      input = Utils.capitalizeFirstLetterOfEachWord(input);
 
       // check if the country is in the graph
       try {
-        for (Countries country : graph.getCountriesSet()) {
-          if (country.getName().equals(input)) {
-            MessageCli.COUNTRY_INFO.printMessage(
-                country.getName(), country.getContinent(), String.valueOf(country.getTax()));
-            countryFound = true;
-            break;
-          }
-        }
-        if (!countryFound) {
-          // if the country is not found throw an exception
-          throw new IncorrectCountryException(input);
-        }
+        currentCountry = getCountry(input);
+        countryFound = true;
 
       } catch (IncorrectCountryException e) {
         MessageCli.INVALID_COUNTRY.printMessage(e.getCountryName());
       }
     }
+
+    // print the country information
+    MessageCli.COUNTRY_INFO.printMessage(
+        currentCountry.getName(),
+        currentCountry.getContinent(),
+        String.valueOf(currentCountry.getTax()));
   }
 
   /** this method is invoked when the user run the command route. */
@@ -78,10 +101,9 @@ public class MapEngine {
 
     boolean sourceFound = false;
     boolean destinationFound = false;
-    String sourceCap = null;
-    String destinationCap = null;
     Countries sourceCountry = null;
     Countries destinationCountry = null;
+    int totalTax = 0;
 
     MessageCli.INSERT_SOURCE.printMessage();
     // while the source is not found run the try catch mathod until the user inputs the correct
@@ -89,18 +111,12 @@ public class MapEngine {
     while (!sourceFound) {
 
       String source = Utils.scanner.nextLine();
-      sourceCap = Utils.capitalizeFirstLetterOfEachWord(source);
 
+      // check if the country is in the graph
       try {
-        for (Countries country : graph.getCountriesSet()) {
-          if (country.getName().equals(sourceCap)) {
-            sourceFound = true;
-            break;
-          }
-        }
-        if (!sourceFound) {
-          throw new IncorrectCountryException(sourceCap);
-        }
+        sourceCountry = getCountry(source);
+        sourceFound = true;
+
       } catch (IncorrectCountryException e) {
         MessageCli.INVALID_COUNTRY.printMessage(e.getCountryName());
       }
@@ -112,38 +128,21 @@ public class MapEngine {
     while (!destinationFound) {
 
       String destination = Utils.scanner.nextLine();
-      destinationCap = Utils.capitalizeFirstLetterOfEachWord(destination);
 
+      // check if the country is in the graph
       try {
-        for (Countries country : graph.getCountriesSet()) {
-          if (country.getName().equals(destinationCap)) {
-            destinationFound = true;
-            break;
-          }
-        }
-        if (!destinationFound) {
-          throw new IncorrectCountryException(destinationCap);
-        }
+        destinationCountry = getCountry(destination);
+        destinationFound = true;
+
       } catch (IncorrectCountryException e) {
         MessageCli.INVALID_COUNTRY.printMessage(e.getCountryName());
       }
     }
 
     // check if the source and destination are the same
-    if (sourceCap.equals(destinationCap)) {
+    if (sourceCountry.equals(destinationCountry)) {
       MessageCli.NO_CROSSBORDER_TRAVEL.printMessage();
       return;
-    }
-
-    // find the source and destination countries
-    for (Countries country : graph.getCountriesSet()) {
-      if (sourceCap.equals(country.getName())) {
-        sourceCountry = country;
-      }
-
-      if (destinationCap.equals(country.getName())) {
-        destinationCountry = country;
-      }
     }
 
     // find the shortest path
@@ -165,8 +164,6 @@ public class MapEngine {
     if (!sourceCountry.equals(destinationCountry)) {
       MessageCli.CONTINENT_INFO.printMessage(continentList.toString());
     }
-
-    int totalTax = 0;
 
     // find the total tax
     for (Countries tax : path) {
